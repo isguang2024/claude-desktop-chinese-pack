@@ -447,7 +447,7 @@
   "Cowork requires macOS 14.0 (Sonoma) or later. Update your operating system to use this feature.": "合作需要macOS 14.0(索诺马语)或以后. 更新您的操作系统以使用此功能 。",
   "Usage": "使用量",
   "All importable Claude Code sessions on this computer, whether started in the Code tab or the terminal, are already in your session list, were previously deleted, or are in folders you haven't trusted in Claude yet.": "此计算机上的所有可导入的 Claude 代码会话, 无论是在代码标签或终端中开始的, 都已经包含在您的会话列表中, 之前被删除, 或者是您尚未信任 Claude 的文件夹中 。",
-  "Max": "马克斯",
+  "Max": "Max",
   "Your administrator has restricted which folders can be used here. {skipped, plural, one {# folder was} other {# folders were}} skipped.": "Your administrator has restricted which folders can be used here. {skipped, plural, one {# folder was} other {# folders were}} skipped.",
   "Load Local Claude.ai": "装入本地 Claude.ai",
   "Trust {directory} and start a Cowork task?": "信任{directory}并开始合作任务?",
