@@ -4,10 +4,12 @@
 
 ## 使用方法
 
-1. 右键运行 `Install.ps1`（或在 PowerShell 中执行它）。
+1. 下载发行包后，右键运行 `Install-Ready.ps1`（或在 PowerShell 中执行它）。它只安装快捷方式，不重新编译语言包。
 2. 从系统托盘完全退出正在运行的 Claude。
 3. 双击桌面上的 **Claude 中文版**。
 4. 在语言菜单中选择 **Chinese (Simplified)** 或 English；也可以按 `Ctrl+Shift+L` 快速切换。
+
+开发者从源码构建时使用 `Install.ps1`；普通用户不需要安装 Node.js、CMake 或 Visual Studio。
 
 ## 工作方式
 
