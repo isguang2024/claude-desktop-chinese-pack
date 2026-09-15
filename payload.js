@@ -11,6 +11,12 @@
     'Bypass permissions': '跳过权限检查',
     'Max': 'Max',
     'Claude Max': 'Claude Max',
+    'Low': '低',
+    'Medium': '中',
+    'High': '高',
+    'Very high': '极高',
+    'Extra high': '超高',
+    'Max effort': '最高思考强度',
     'Extra': '额外',
     'Effort': '思考强度',
     'About effort': '关于思考强度',
@@ -72,9 +78,29 @@
     '[class*="font-user-message" i], [class*="font-claude-response" i], [class~="prose"], [class*="prose-"]'
   );
 
-  function translate(value) {
+  function isEffortContext(nodeOrElement) {
+    let element = nodeOrElement instanceof Element ? nodeOrElement : nodeOrElement?.parentElement;
+    for (let depth = 0; element && depth < 8; depth += 1, element = element.parentElement) {
+      const hint = normalize([
+        element.getAttribute?.('aria-label'),
+        element.getAttribute?.('title'),
+        element.getAttribute?.('data-testid'),
+        element.getAttribute?.('data-state'),
+      ].filter(Boolean).join(' '));
+      if (/effort|thinking|思考强度/i.test(hint)) return true;
+      const role = element.getAttribute?.('role');
+      if (!role || !/option|menuitem|radio|listbox|menu/i.test(role)) continue;
+      const nearby = normalize(element.parentElement?.textContent || element.textContent);
+      const levels = nearby.match(/Low|Medium|High|Very high|Extra high|Max|低|中|高|极高|超高|最高/g) || [];
+      if (new Set(levels).size >= 2) return true;
+    }
+    return false;
+  }
+
+  function translate(value, context = {}) {
     const text = normalize(value);
     if (!text) return null;
+    if (context.effort && text === 'Max') return '最高';
     if (dictionary[text] && dictionary[text] !== text) return dictionary[text];
     const patterns = [
       [/^Resets in (.+)$/, (_, value) => `将在 ${value.replace(/\bhr\b/g, '小时').replace(/\bmin\b/g, '分钟')}后重置`],
@@ -117,7 +143,7 @@
     const parent = node.parentElement;
     if (!enabled || !parent || skipped(parent)) return;
     if (!originalText.has(node)) originalText.set(node, node.nodeValue);
-    const translated = translate(node.nodeValue);
+    const translated = translate(node.nodeValue, { effort: isEffortContext(node) });
     if (translated && normalize(node.nodeValue) !== normalize(translated)) node.nodeValue = translated;
   }
 
@@ -129,7 +155,7 @@
       let saved = originalAttrs.get(element);
       if (!saved) originalAttrs.set(element, saved = {});
       if (!(attr in saved)) saved[attr] = element.getAttribute(attr);
-      const translated = translate(element.getAttribute(attr));
+      const translated = translate(element.getAttribute(attr), { effort: isEffortContext(element) });
       if (enabled && translated) element.setAttribute(attr, translated);
     }
     for (const node of element.childNodes) {
