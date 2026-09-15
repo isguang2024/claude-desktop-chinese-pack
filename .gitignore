@@ -1,0 +1,18 @@
+# Local/build outputs
+node_modules/
+build/
+dist/
+*.pending
+
+# Browser automation profiles and generated Python caches
+tools/google-chrome-profile/
+tools/google-chrome-profile-*/
+tools/__pycache__/
+**/__pycache__/
+*.pyc
+
+# Local logs, reports, and machine-specific files
+*.log
+*.tmp
+nul
+.DS_Store
